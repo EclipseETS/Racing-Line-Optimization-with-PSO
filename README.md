@@ -1,5 +1,31 @@
 <h1 align="center">Racing Line Optimization with PSO</h1>
 
+**This repository is a fork of https://github.com/ParsaD23/Racing-Line-Optimization-with-PSO**
+
+# Éclipse Fork of Racing Line Optimization with PSO
+
+## Why the Fork?
+
+Needed something to generate a speed map. This works very well with a few modifications to fit in the rest of our pipeline :)
+
+## How to use with PyStrategy?
+
+>The project uses a Micromamba virtual environment
+
+1. Generate KML track using Google Earth
+2. Convert KML to Plain Text with [GPS Visualizer](https://www.gpsvisualizer.com/convert_input?form:add_elevation=auto&convert_add_course=1&convert_add_distance=1&convert_add_slope=1&convert_add_speed=1&units=metric)
+3. Edit values in `csv_to_json.py` to have the propper UTM zone as well a good file paths.
+4. Run csv_to_json.py
+5. Put the output of that script as the new tacks.json
+6. Edit values in `main.py` for seciton count and stuff
+6. Run `python pso/main.py`
+7. Put the contents of `speed_points.csv` in [GPS Visualizer](https://www.gpsvisualizer.com/convert_input?form:add_elevation=auto&convert_add_course=1&convert_add_distance=1&convert_add_slope=1&convert_add_speed=1&units=metric)
+8. Put the exported file in PyStrategy as needed
+9. Link to convert back to KML for use in [Google Earth](https://www.gpsvisualizer.com/map_input?add_elevation=auto&convert_routes=t_aw&force_type=t&form=googleearth&googleearth_zip=0&tickmark_zero=1&trk_colorize=speed&units=metric)
+
+
+# Original README
+
 This repository contains a racing line optimization algorithm in python that uses **Particle Swarm Optimization**.
 
 ## Requirements
