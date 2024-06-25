@@ -14,3 +14,6 @@ dependencies:
     - numpy
     - scipy
     - shapely
+    - plotly
+    - pandas
+    - pyproj
