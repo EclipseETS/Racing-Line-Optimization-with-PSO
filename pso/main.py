@@ -1,7 +1,18 @@
+#------------------------------------------------------------------------------+
+#
+#	Parsa Dahesh (dinoco.parsa23@gmail.com or parsa.dahesh@studio.unibo.it)
+#       and Matthew Albert (matthew.albert.1@ens.etsmtl.ca)
+#	Racing Line Optimization with PSO
+#	MIT License
+#
+#------------------------------------------------------------------------------+
+
+import csv
 import json
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+from pyproj import Proj, transform
 
 import plotly.graph_objects as go
 
@@ -15,7 +26,7 @@ def main():
     # PARAMETERS
     N_SECTORS = 200
     N_PARTICLES = 150
-    N_ITERATIONS = 300
+    N_ITERATIONS = 400
     W = -0.2256
     CP = -0.1564
     CG = 3.8876
@@ -97,9 +108,30 @@ def main():
         plt.xlabel("n_iteration")
         plt.plot(gs_eval_history)
         plt.show()
+
+        export_to_csv(x, y, z, v)
         
         plot_final_racing_line(inside_points, outside_points, x, y, v, global_solution)
 
+
+# Define projections for longitude/latitude and UTM
+wgs84 = Proj(proj='latlong', datum='WGS84')
+utm_zone_16 = Proj(proj='utm', zone=16, datum='WGS84')
+
+def utm_to_lonlat(x, y):
+    lon, lat = transform(utm_zone_16, wgs84, x, y)
+    return lon, lat
+
+def export_to_csv(x, y, z, v, filename="speed_points.csv"):
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["type", "speed", "lat", "long"])
+
+        for x_i, y_i, z_i, speed in zip(x, y, z, v):
+            lon, lat = utm_to_lonlat(x_i, y_i)
+            writer.writerow(["T", speed, lat, lon])
+    
+    print(f"CSV file saved as {filename}")
 
 def sectors_to_racing_line(sectors:list, inside_points:list, outside_points:list):
     '''Sectors to racing line coordinate
